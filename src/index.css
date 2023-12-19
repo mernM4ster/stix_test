@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+@font-face {
+  font-family: beatrice-font;
+  src: url(./assets/fonts/Beatrice\ Bold.ttf);
+}
+
+@font-face {
+  font-family: domaine-bold;
+  src: url(./assets/fonts/Domaine\ Bold.ttf);
+}
+@font-face {
+  font-family: domaine-regular;
+  src: url(./assets/fonts/Domaine\ Regular.otf);
+}
+
+.beatrice-font {
+  font-family: beatrice-font;
+}
+
+.domaine-regular {
+  font-family: domaine-regular;
+}
+
+.domaine-bold {
+  font-family: domaine-bold;
+}
