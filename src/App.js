@@ -44,6 +44,7 @@ function App() {
             : <CameraPage onCheck={setChecked}  />
           : <ResultPage />
       }
+      {/* <CameraPage /> */}
     </div>
   );
 }
