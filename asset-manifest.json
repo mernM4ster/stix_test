@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/stix/static/css/main.db033539.css",
-    "main.js": "/stix/static/js/main.49103c67.js",
+    "main.css": "/stix/static/css/main.d55f3309.css",
+    "main.js": "/stix/static/js/main.e65cb9e1.js",
     "static/js/787.f6570a32.chunk.js": "/stix/static/js/787.f6570a32.chunk.js",
     "static/media/Beatrice Bold.ttf": "/stix/static/media/Beatrice Bold.f3a3e3a1faff7f1e828a.ttf",
     "static/media/Domaine Bold.ttf": "/stix/static/media/Domaine Bold.faff2fae7d8b5308eeac.ttf",
     "static/media/Domaine Regular.otf": "/stix/static/media/Domaine Regular.f7955c03a20bfbcfeb24.otf",
-    "static/media/stix-uti-test.png": "/stix/static/media/stix-uti-test.5c4fd6dcb1a606a6a752.png",
-    "static/media/stix-ph-test.png": "/stix/static/media/stix-ph-test.ff9290bb87af77498011.png",
+    "static/media/stix-ph-test.png": "/stix/static/media/stix-ph-test.dce55db3d68717ae1ac8.png",
+    "static/media/stix-uti-test.png": "/stix/static/media/stix-uti-test.ab175c82e88273166432.png",
     "index.html": "/stix/index.html",
-    "main.db033539.css.map": "/stix/static/css/main.db033539.css.map",
-    "main.49103c67.js.map": "/stix/static/js/main.49103c67.js.map",
+    "main.d55f3309.css.map": "/stix/static/css/main.d55f3309.css.map",
+    "main.e65cb9e1.js.map": "/stix/static/js/main.e65cb9e1.js.map",
     "787.f6570a32.chunk.js.map": "/stix/static/js/787.f6570a32.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.db033539.css",
-    "static/js/main.49103c67.js"
+    "static/css/main.d55f3309.css",
+    "static/js/main.e65cb9e1.js"
   ]
 }
