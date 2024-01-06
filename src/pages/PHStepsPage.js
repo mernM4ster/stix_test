@@ -1,46 +1,64 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import PurpleBtn from "../Components/PurpleBtn";
 import SymptomContainer from "../containers/SymptomContainer";
 import StepsContainer from "../containers/StepsContainer";
 import { PH_STEPS } from "../const/const";
 import StixPHTestImg from "../assets/img/stix-ph-test.png";
 
-const PHStepsPage = ({onCamera}) => {
+const PHStepsPage = () => {
+	const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 	const [isSymptom, setIsSymptom] = useState(false);
 	const [step, setStep] = useState(0);
 	const [isStep, setIsStep] = useState(false);
-	const [isBack, setIsBack] = useState(false);
 
 	const goToHome = () => {
+		navigate("/ph");
 		setIsStep(false);
 		setIsSymptom(false);
-		setIsBack(false)
 	}
 
 	const goToStep = () => {
-		setIsStep(true);
-		setIsSymptom(false);
-		setIsBack(false)
+		navigate("/ph?stage=step&step=1");
 	}
 	
 	const goToSymptom = () => {
-		setIsStep(false);
-		setIsSymptom(true);
-		setIsBack(true)
+		navigate("/ph?stage=symptom&step=3");
 	}
+
+	useEffect(() => {
+		const stage = searchParams.get("stage");
+		const curStep = searchParams.get("step");
+		console.log(stage)
+		if (stage) {
+			if (stage === "symptom") {
+				setIsSymptom(true);
+				setIsStep(false);
+			}
+			if (stage === "step") {
+				setIsSymptom(false);
+				setIsStep(true);
+			}
+		}
+
+		if (step) {
+			setStep(curStep)
+		}
+	}, [searchParams])
 
 	return (
 		<>
 			{
 				!isSymptom &&
-					<div className='relative w-full h-60 px-4 py-10 bg-[#e8e4f2] relative flex flex-col items-center justify-center text-4xl font-bold'>
+					<div className='relative w-full xxs:h-48 xs:h-60 px-4 py-10 bg-[#e8e4f2] relative flex flex-col items-center justify-center text-4xl font-bold'>
 						{
 							!isStep
 								? <>
-									<div className='text-[#ff9068] beatrice-font' >Stix pH</div>
+									<div className='text-[#ff9068] beatrice-font' >Vaginal Health</div>
 									<div className='domaine-bold xxxs:mb-16 xxs:mb-0'>Test & Treat</div>
 								</>
-								: <div className='text-center beatrice-font text-[#6e66bc] text-2xl'>{PH_STEPS[step].img_alt}</div>
+								: <div className='text-center beatrice-font text-[#6e66bc] xxxs:text-base xxs:text-xl xs:text-2xl'>{PH_STEPS[step].img_alt}</div>
 						}
 						{
 							!isStep &&
@@ -48,19 +66,19 @@ const PHStepsPage = ({onCamera}) => {
 						}
 					</div>
 			}
-			<div className='bg-[#fff4ea] flex-1 flex flex-col pb-10 px-4'>
+			<div className='bg-[#fff4ea] flex-1 flex flex-col pb-6 px-4'>
 				{
 					!isSymptom && !isStep && 
 						<>
 							<div className="flex-1"></div>
-							<PurpleBtn func={() => setIsSymptom(true)} >Get Started</PurpleBtn>
+							<PurpleBtn func={() => navigate('/ph?stage=symptom&step=1')} >Get Started</PurpleBtn>
 						</>
 				}
 				{
-					isSymptom && <SymptomContainer goToStep={goToStep} isBack={isBack} goToHome={goToHome} />
+					isSymptom && <SymptomContainer goToStep={goToStep} goToHome={goToHome} />
 				}
 				{
-					isStep && <StepsContainer STEPS={PH_STEPS} onCamera={onCamera} goToSymptom={goToSymptom} setStep={setStep} />
+					isStep && <StepsContainer STEPS={PH_STEPS} goToSymptom={goToSymptom} />
 				}
 			</div>
 		</>

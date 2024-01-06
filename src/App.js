@@ -1,19 +1,17 @@
 import { useEffect, useState } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import NoSleep  from 'nosleep.js';
-import StixStepsPage from './pages/StixStepsPage';
-import ResultPage from './pages/ResultPage';
 import LogoImg from "./assets/img/stix-logo.png";
 
 import './App.css';
-import CameraPage from './pages/CameraPage';
-import PHStepsPage from './pages/PHStepsPage';
+import MyRoutes from './routes';
 
 function App() {
-  const [checked, setChecked] = useState(false);
-  const [camStatus, setCamStatus] = useState(false);
-  
+  const [disabledBack, setDisabledBack] = useState(false);
+  const [clickBack, setClickBack] = useState(0);
+
   useEffect(() => {
     const noSleep = new NoSleep();
     noSleep.enable();
@@ -25,26 +23,17 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="stretch-height flex flex-col">
       <div className='w-full flex justify-between items-center px-4 py-2'>
         <img src={LogoImg} alt='logo' />
         <div className='w-10 h-10 rounded-full bg-[#6e66bc] flex items-center justify-center'><FontAwesomeIcon color='white' icon={faBars} /></div>
       </div>
-      {/* {
-        !checked
-          ? !camStatus
-            ? <StixStepsPage onCamera={setCamStatus} />
-            : <CameraPage onCheck={setChecked}  />
-          : <ResultPage />
-      } */}
-      {
-        !checked
-          ? !camStatus
-            ? <PHStepsPage onCamera={setCamStatus} />
-            : <CameraPage onCheck={setChecked}  />
-          : <ResultPage />
-      }
-      {/* <CameraPage /> */}
+      <BrowserRouter>
+        <MyRoutes setDisabledBack={setDisabledBack} clickBack={clickBack} />
+      </BrowserRouter>
+      <button className='fixed top-20 right-6 w-8 h-8 rounded-full bg-[#6e66bc] flex items-center justify-center' disabled={disabledBack} onClick={() => setClickBack(old => old + 1)}>
+        <FontAwesomeIcon color='white' icon={faArrowLeft} />
+      </button>
     </div>
   );
 }

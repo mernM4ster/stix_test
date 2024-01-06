@@ -1,22 +1,34 @@
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Stats from 'stats.js';
 import AR from 'js-aruco/src/aruco';
 import CV from 'js-aruco/src/cv';
 
-const CameraPage = ({onCheck}) => {
+const CameraPage = () => {
+  const navigate = useNavigate();
 	const videoRef = useRef(null);
 	const canvasRef = useRef(null);
 	
 	
 	const onTakePhoto = () => {
-		onCheck(true)
+		navigate(`/result`);
 	}
 
 	useEffect(() => {
 		const video = videoRef.current;
+    const stats = new Stats();
+    stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+    document.getElementById("camera-section").appendChild( stats.dom );
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
     let imageData;
     let detector;
+
+    const animate = () => {
+      stats.begin();
+      stats.end();
+      requestAnimationFrame(animate);
+    }
 
     const onLoad = () => {
       canvas.width = parseInt(canvas.style.width);
@@ -32,7 +44,7 @@ const CameraPage = ({onCheck}) => {
       });
 
       navigator.mediaDevices
-        .getUserMedia({ video: true })
+        .getUserMedia({ video: {facingMode: 'environment'} })
         .then(function (stream) {
           if ('srcObject' in video) {
             video.srcObject = stream;
@@ -142,6 +154,7 @@ const CameraPage = ({onCheck}) => {
     };
 
     onLoad();
+    requestAnimationFrame( animate );
 
     return () => {
       // Clean up any resources or event listeners here
@@ -149,9 +162,9 @@ const CameraPage = ({onCheck}) => {
   }, []);
 
 	return (
-		<div className='fixed w-full h-full z-10'>
+		<div id='camera-section' className='fixed w-full h-full z-10'>
 			<div className='w-full h-full flex justify-center items-center'>
-				<video className='w-full h-full object-cover hidden' ref={videoRef} autoPlay />
+				<video className='w-full h-full object-cover hidden' ref={videoRef} autoPlay playsInline />
 				<canvas ref={canvasRef} className="w-full h-full object-cover"></canvas>
 			</div>
 			<div className='fixed bottom-0 w-full h-40 p-8 flex items-center justify-center'>
