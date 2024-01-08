@@ -23,17 +23,19 @@ function App() {
   }, []);
 
   return (
-    <div className="stretch-height flex flex-col">
-      <div className='w-full flex justify-between items-center px-4 py-2'>
-        <img src={LogoImg} alt='logo' />
-        <div className='w-10 h-10 rounded-full bg-[#6e66bc] flex items-center justify-center'><FontAwesomeIcon color='white' icon={faBars} /></div>
+    <div className="stretch-height flex justify-center">
+      <div className='flex flex-col w-[800px]'>
+        <div className='w-full flex justify-between items-center px-4 py-2'>
+          <img src={LogoImg} alt='logo' />
+          <div className='w-10 h-10 rounded-full bg-[#6e66bc] flex items-center justify-center'><FontAwesomeIcon color='white' icon={faBars} /></div>
+        </div>
+        <BrowserRouter>
+          <MyRoutes setDisabledBack={setDisabledBack} clickBack={clickBack} />
+        </BrowserRouter>
       </div>
-      <BrowserRouter>
-        <MyRoutes setDisabledBack={setDisabledBack} clickBack={clickBack} />
-      </BrowserRouter>
-      <button className='fixed top-20 right-6 w-8 h-8 rounded-full bg-[#6e66bc] flex items-center justify-center' disabled={disabledBack} onClick={() => setClickBack(old => old + 1)}>
+      {/* <button className='fixed top-20 right-6 w-8 h-8 rounded-full bg-[#6e66bc] flex items-center justify-center' disabled={disabledBack} onClick={() => setClickBack(old => old + 1)}>
         <FontAwesomeIcon color='white' icon={faArrowLeft} />
-      </button>
+      </button> */}
     </div>
   );
 }

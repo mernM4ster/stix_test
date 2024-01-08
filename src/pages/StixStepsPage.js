@@ -53,6 +53,8 @@ const StixStepsPage = () => {
         setMin(newMin.toString());
         setSec(newSec < 10 ? `0${newSec}` : newSec.toString())
       }
+    } else {
+      setTimer(115);
     }
   }, [timer, timerId])
 

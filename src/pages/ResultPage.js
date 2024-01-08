@@ -6,7 +6,6 @@ import ReliefImg from "../assets/img/Rectangle 9766.png";
 import ProbioticImg from "../assets/img/Rectangle 9764.png";
 import PurpleBtn from "../Components/PurpleBtn";
 import TransparentBtn from "../Components/TransParentBtn";
-import SmileImg from "../assets/img/smile.png";
 
 const ResultPage = () => {
 	const goToPrescription = () => {
@@ -18,9 +17,9 @@ const ResultPage = () => {
 	}
 	return(
 		<>
-			<div className='relative w-full xxs:h-48 xs:h-60 px-4 bg-[#e8e4f2] relative flex flex-col items-center justify-between xxxs:text-sm xxs:text-lg xs:text-xl'>
-				<div className="w-full flex justify-between xxxs:py-1 xxs:py-4 xs:py-6 domaine-regular font-bold"><span>Results</span><span>Oct 23, 2023</span></div>
-				<div className="w-full xxxs:h-16 xxs:h-24 xs:h-40 bg-[#6e66bc] rounded-t-xl"></div>
+			<div className='relative w-full xxs:h-40 xs:h-60 px-4 bg-[#e8e4f2] relative flex flex-col items-center justify-between xxxs:text-sm xxs:text-lg xs:text-xl'>
+					<div className="w-full flex justify-between xxxs:py-1 xxs:py-4 xs:py-6 domaine-regular font-bold"><span>Results</span><span>Oct 23, 2023</span></div>
+					<div className="w-full xxxs:h-16 xxs:h-24 xs:h-40 bg-[#6e66bc] rounded-t-xl"></div>
 			</div>
 			<div className='bg-[#fff4ea] flex-1 flex flex-col items-center xxxs:pb-2 xs:pb-10 px-4'>
 				<div className="w-full xxs:h-24 xs:h-40 bg-white rounded-b-xl xxxs:p-1 xxs:p-2 xs:p-8 text-center">
