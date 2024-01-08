@@ -171,7 +171,7 @@ const CameraPage = () => {
   }, []);
 
 	return (
-		<div id='camera-section' className='fixed w-full h-full z-10'>
+		<div id='camera-section' className='fixed w-full h-full z-10 right-0'>
 			<div className='w-full h-full flex justify-center items-center'>
 				<video className='w-full h-full object-cover hidden' ref={videoRef} autoPlay playsInline />
 				<canvas ref={canvasRef} className="w-full h-full object-cover"></canvas>
