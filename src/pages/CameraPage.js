@@ -8,7 +8,7 @@ const CameraPage = () => {
   const navigate = useNavigate();
 	const videoRef = useRef(null);
 	const canvasRef = useRef(null);
-	
+	const mediaStreamRef = useRef();
 	
 	const onTakePhoto = () => {
 		navigate(`/result`);
@@ -24,11 +24,11 @@ const CameraPage = () => {
     let imageData;
     let detector;
 
-    const animate = () => {
-      stats.begin();
-      stats.end();
-      requestAnimationFrame(animate);
-    }
+    // const animate = () => {
+    //   stats.begin();
+    //   stats.end();
+    //   requestAnimationFrame(animate);
+    // }
 
     const onLoad = () => {
       canvas.width = parseInt(canvas.style.width);
@@ -47,6 +47,7 @@ const CameraPage = () => {
         .getUserMedia({ video: {facingMode: 'environment'} })
         .then(function (stream) {
           if ('srcObject' in video) {
+            mediaStreamRef.current = stream;
             video.srcObject = stream;
           } else {
             video.src = window.URL.createObjectURL(stream);
@@ -60,14 +61,17 @@ const CameraPage = () => {
     const tick = () => {
       requestAnimationFrame(tick);
 
+      stats.begin();
       if (video.readyState === video.HAVE_ENOUGH_DATA) {
         snapshot();
 
         const markers = detector.detect(imageData);
 				drawWarps(detector.grey, markers, 0, parseInt(video.height) * 2 + 20);
-        drawCorners(markers);
-        drawId(markers);
+        // drawCorners(markers);
+        // drawId(markers);
       }
+      stats.end();
+
     };
 
 		const drawWarps = (imageSrc, contours, x, y) => {
@@ -154,9 +158,14 @@ const CameraPage = () => {
     };
 
     onLoad();
-    requestAnimationFrame( animate );
+    // requestAnimationFrame( animate );
 
     return () => {
+      if (mediaStreamRef.current && mediaStreamRef.current.getTracks) {
+        mediaStreamRef.current.getTracks().forEach((track) => {
+          track.stop();
+        });
+      }
       // Clean up any resources or event listeners here
     };
   }, []);
