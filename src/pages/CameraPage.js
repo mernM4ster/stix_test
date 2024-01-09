@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Stats from 'stats.js';
 import AR from 'js-aruco/src/aruco';
@@ -9,9 +9,13 @@ const CameraPage = () => {
 	const videoRef = useRef(null);
 	const canvasRef = useRef(null);
 	const mediaStreamRef = useRef();
+  const [isLoading, setIsLoading] = useState(false);
 	
 	const onTakePhoto = () => {
-		navigate(`/result`);
+    setIsLoading(true);
+    setTimeout(() => {
+      navigate(`/result`);
+    }, 2000)
 	}
 
 	useEffect(() => {
@@ -171,27 +175,24 @@ const CameraPage = () => {
   }, []);
 
 	return (
-		<div id='camera-section' className='fixed w-full h-full z-10 right-0'>
-			<div className='w-full h-full flex justify-center items-center'>
-				<video className='w-full h-full object-cover hidden' ref={videoRef} autoPlay playsInline />
-				<canvas ref={canvasRef} className="w-full h-full object-cover"></canvas>
-			</div>
-			<div className='fixed bottom-0 w-full h-40 p-8 flex items-center justify-center'>
-				{/* <img className='w-16 h-16' src={image} /> */}
-				<button
-					className='text-white text-2xl'
-					// onClick={onTakePhoto}
-					onClick={onTakePhoto}
-				><div className='w-16 h-16 bg-white rounded-full'></div></button>
-				{/* <button
-					className='text-white'
-					hidden={numberOfCameras <= 1}
-					onClick={() => {
-						cam.current.switchCamera();
-					}}
-				><FontAwesomeIcon size='2xl' icon={faArrowsRotate} /></button> */}
-			</div>
-		</div>
+    <>
+    {
+      !isLoading
+        ? <div id='camera-section' className='fixed w-full h-full z-10 right-0'>
+            <div className='w-full h-full flex justify-center items-center'>
+              <video className='w-full h-full object-cover hidden' ref={videoRef} autoPlay playsInline />
+              <canvas ref={canvasRef} className="w-full h-full object-cover"></canvas>
+            </div>
+            <div className='fixed bottom-0 w-full h-40 p-8 flex items-center justify-center'>
+              <button
+                className='text-white text-2xl'
+                onClick={onTakePhoto}
+              ><div className='w-16 h-16 bg-white rounded-full'></div></button>
+            </div>
+          </div>
+        : <div className='w-full h-full bg-[#e8e4f2] flex items-center justify-center beatrice-font text-[#6e66bc]'>Scan Animation</div>
+    }
+    </>
 	)
 }
 
