@@ -16,17 +16,24 @@ const StixStepsPage = () => {
 	const [timerId, setTimerId] = useState(null);
   const [min, setMin] = useState("0");
   const [sec, setSec] = useState("00");
+  const [onAudio, setOnAudio] = useState(true);
+  const [isAlarmStart, setIsAlarmStart] = useState(false);
+  const [oscillator, setOscillator] = useState(null);
 
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
       navigate(`/uti?step=${currentStep + 1}`);
       if (currentStep === 3 && timerId === null && timer > 0) {
+        const current = Math.floor(Date.now() / 1000);
+        localStorage.setItem("target", current + 115);
         const newTimerId = setInterval(onTimer, 1000);
         localStorage.setItem("timerId", newTimerId);
         setTimerId(newTimerId);
       }
     } else {
       localStorage.setItem("timerId", null);
+      console.log(isAlarmStart)
+      isAlarmStart && oscillator.stop();
       navigate(`/camera`);
 		}
   }
@@ -37,13 +44,32 @@ const StixStepsPage = () => {
     }
   }
 
-  const onTimer = () => setTimer(oldTimer => oldTimer - 1);
+  const onTimer = () => {
+    const current = Math.floor(Date.now() / 1000);
+    const target = parseInt(localStorage.getItem("target"));
+    setTimer(target - current);
+  }
+
+  const switchAudio = (flag) => {
+    setOnAudio(flag)
+  }
+
+  const playAlarm = () => {
+    setIsAlarmStart(true);
+    oscillator.start();
+    setTimeout(() => {
+      oscillator.stop();
+      setIsAlarmStart(false);
+    }, 5000);
+  };
 
   useEffect(() => {
     if (timerId) {
-      if (timer <= 0) {
+      if (timer === 0) {
         clearInterval(timerId);
-        setTimerId(null)
+        onAudio && playAlarm();
+        // setTimerId(null)
+        setSec("00");
         localStorage.setItem("timerId", null);
         localStorage.setItem("timer", 0);
       } else {
@@ -72,13 +98,34 @@ const StixStepsPage = () => {
       localStorage.setItem("timerId", newTimerId)
       setTimerId(newTimerId);
     }
+
+    // Create an AudioContext
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioContext = new AudioContext();
+
+    // Create an oscillator node
+    const newOscillator = audioContext.createOscillator();
+    newOscillator.type = 'square';
+    newOscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+
+    // Connect the oscillator to the AudioContext destination
+    newOscillator.connect(audioContext.destination);
+    setOscillator(newOscillator);
   }, [])
 
 	return (
 		<>
       <div className='relative w-full xxs:h-48 xs:h-60 px-4 py-10 bg-[#e8e4f2] relative flex flex-col items-center justify-center text-4xl font-bold'>
 				{
-					!!timerId && <div className='absolute top-4 py-2 px-4 rounded-full bg-black text-white beatrice-font font-bold xxxs:text-sm xxs:text-lg xs:text-2xl'>{min}:{sec}</div>
+					!!timerId && 
+            <div className={`absolute top-4 py-2 px-4 rounded-full ${timer ? "bg-black" : "bg-red-600"} text-white beatrice-font font-bold xxxs:text-sm xxs:text-lg xs:text-2xl flex justify-center leading-none`}>
+              <span>{min}:{sec}</span>
+              {
+                onAudio
+                  ? <button className='mt-[1px] ml-2' onClick={() => switchAudio(false)}><i className="fi fi-rs-volume"></i></button>
+                  : <button className='mt-[1px] ml-2' onClick={() => switchAudio(true)}><i className="fi fi-rs-volume-mute"></i></button>
+              }
+            </div>
 				}
         {
           currentStep === 0

@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import NoSleep  from 'nosleep.js';
 import LogoImg from "./assets/img/stix-logo.png";
 
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
 import MyRoutes from './routes';
 
 function App() {
@@ -36,6 +38,7 @@ function App() {
       {/* <button className='fixed top-20 right-6 w-8 h-8 rounded-full bg-[#6e66bc] flex items-center justify-center' disabled={disabledBack} onClick={() => setClickBack(old => old + 1)}>
         <FontAwesomeIcon color='white' icon={faArrowLeft} />
       </button> */}
+      <ToastContainer />
     </div>
   );
 }

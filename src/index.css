@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "~@flaticon/flaticon-uicons/css/all/all";
+
 #root {
   margin: 0;
   position: absolute;
