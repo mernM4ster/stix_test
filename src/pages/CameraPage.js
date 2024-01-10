@@ -25,6 +25,10 @@ const CameraPage = () => {
     const file = event.target.files[0];
     console.log("file", file)
     setSelectedImage(URL.createObjectURL(file));
+    setIsLoading(true);
+    setTimeout(() => {
+      navigate(`/result`);
+    }, 2000)
   };
 
 	useEffect(() => {
