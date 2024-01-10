@@ -65,7 +65,7 @@ const StixStepsPage = () => {
 
   useEffect(() => {
     if (timerId) {
-      if (timer === 0) {
+      if (timer <= 0) {
         clearInterval(timerId);
         onAudio && playAlarm();
         // setTimerId(null)
