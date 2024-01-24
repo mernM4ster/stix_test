@@ -16,7 +16,10 @@ function App() {
   const noSleep = new NoSleep();
 
   useEffect(() => {
-    noSleep.enable();
+    document.addEventListener('click', function enableNoSleep() {
+      document.removeEventListener('click', enableNoSleep, false);
+      noSleep.enable();
+    }, false);
     
     // Clean up the wake lock when the component unmounts
     return () => {
