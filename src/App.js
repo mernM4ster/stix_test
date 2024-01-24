@@ -19,9 +19,9 @@ function App() {
     noSleep.enable();
     
     // Clean up the wake lock when the component unmounts
-    return () => {
-      noSleep.disable();
-    };
+    // return () => {
+    //   noSleep.disable();
+    // };
   }, []);
 
   return (
