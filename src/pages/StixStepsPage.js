@@ -29,8 +29,8 @@ const StixStepsPage = ({activeWakeLock}) => {
     if (currentStep < UTI_STEPS.length) {
       navigate(`/uti?step=${currentStep + 1}`);
       if (currentStep === 3 && timerId === null && timer > 0) {
-        audio.volume = 0;
         audio.play();
+        audio.volume = 0;
         const current = Math.floor(Date.now() / 1000);
         localStorage.setItem("target", current + 5);
         const newTimerId = setInterval(onTimer, 1000);
