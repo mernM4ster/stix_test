@@ -61,7 +61,7 @@ const StixStepsPage = () => {
 
   const playAlarm = () => {
     setIsAlarmStart(true);
-    audioRef.current.play()
+    audioRef.current.play();
     setTimeout(() => {
       // audioRef.current.pause()
       setIsAlarmStart(false);
@@ -167,8 +167,8 @@ const StixStepsPage = () => {
                 </TransparentBtn>
             }
         </div>
-        <audio ref={audioRef} src={AlertMP3} />
-      <button onClick={playAudio}>Play</button>
+        <audio ref={audioRef} src={AlertMP3} loop />
+        <button onClick={playAudio}>Play</button>
       </div>
 		</>
 	)
