@@ -14,10 +14,20 @@ function App() {
   const [disabledBack, setDisabledBack] = useState(false);
   const [clickBack, setClickBack] = useState(0);
 
-  const noSleep = new NoSleep();
-  noSleep.enable();
-  console.log("wake lock")
-  useEffect(() => {
+  useEffect( () => {
+    // const noSleep = new NoSleep();
+    // noSleep.enable();
+
+    const requestWakeLock = async () => {
+      try {
+        await navigator.wakeLock.request("screen");
+      } catch (err) {
+        console.log(`${err.name}, ${err.message}`);
+        alert(err.message)
+      }
+    };
+
+    requestWakeLock();
     
     // Clean up the wake lock when the component unmounts
     // return () => {
