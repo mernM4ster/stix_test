@@ -20,6 +20,13 @@ const StixStepsPage = () => {
   const [sec, setSec] = useState("00");
   const [onAudio, setOnAudio] = useState(true);
   const [isAlarmStart, setIsAlarmStart] = useState(false);
+  const audio = new Audio();
+  audio.src= AlertMP3;
+  audio.load();
+
+  const playAlertSound = () => {
+    audio.play();
+  }
 
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
@@ -58,7 +65,8 @@ const StixStepsPage = () => {
   const playAlarm = () => {
     setIsAlarmStart(true);
     audioRef.current.autoplay = true;
-    audioRef.current.play()
+    // audioRef.current.play()
+    playAlertSound()
     setTimeout(() => {
       audioRef.current.pause()
       setIsAlarmStart(false);
