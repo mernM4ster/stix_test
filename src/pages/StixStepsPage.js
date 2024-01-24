@@ -24,10 +24,6 @@ const StixStepsPage = () => {
   audio.src= AlertMP3;
   audio.load();
 
-  const playAlertSound = () => {
-    audio.play();
-  }
-
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
       navigate(`/uti?step=${currentStep + 1}`);
@@ -40,7 +36,7 @@ const StixStepsPage = () => {
       }
     } else {
       localStorage.setItem("timerId", null);
-      isAlarmStart && audioRef.current.pause();
+      isAlarmStart && audio.pause();
       navigate(`/camera`);
 		}
   }
@@ -59,17 +55,19 @@ const StixStepsPage = () => {
 
   const switchAudio = (flag) => {
     setOnAudio(flag);
-    isAlarmStart && audioRef.current.pause();
+    isAlarmStart && audio.pause();
   }
 
   const playAlarm = () => {
     setIsAlarmStart(true);
-    audioRef.current.autoplay = true;
+    // audioRef.current.autoplay = true;
     // audioRef.current.play()
-    playAlertSound()
+    console.log("alarm start")
+    audio.play();
     setTimeout(() => {
-      audioRef.current.pause()
+      audio.pause();
       setIsAlarmStart(false);
+      console.log("alarm end")
     }, 5000);
   };
 
