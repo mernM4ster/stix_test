@@ -32,6 +32,7 @@ const StixStepsPage = () => {
       source.connect(audioCtx.destination);
       source.start();
       audioRef.current = source;
+      audioRef.current.loop = true
     } catch (error) {
       console.log(error);
       alert(error)
