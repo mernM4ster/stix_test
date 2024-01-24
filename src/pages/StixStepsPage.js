@@ -20,6 +20,8 @@ const StixStepsPage = () => {
   const [sec, setSec] = useState("00");
   const [onAudio, setOnAudio] = useState(true);
   const [isAlarmStart, setIsAlarmStart] = useState(false);
+  const audio = new Audio(AlertMP3);
+  audio.loop = true;
 
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
@@ -33,7 +35,7 @@ const StixStepsPage = () => {
       }
     } else {
       localStorage.setItem("timerId", null);
-      isAlarmStart && audioRef.current.pause();
+      isAlarmStart && audio.pause();
       navigate(`/camera`);
 		}
   }
@@ -52,14 +54,14 @@ const StixStepsPage = () => {
 
   const switchAudio = (flag) => {
     setOnAudio(flag);
-    isAlarmStart && audioRef.current.pause();
+    isAlarmStart && audio.pause();
   }
 
   const playAlarm = () => {
     setIsAlarmStart(true);
-    audioRef.current.play()
+    audio.play()
     setTimeout(() => {
-      audioRef.current.pause()
+      audio.pause()
       setIsAlarmStart(false);
     }, 5000);
   };
@@ -163,7 +165,6 @@ const StixStepsPage = () => {
                 </TransparentBtn>
             }
         </div>
-        <audio ref={audioRef} src={AlertMP3} loop />
       </div>
 		</>
 	)
