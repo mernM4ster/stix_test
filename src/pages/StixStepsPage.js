@@ -57,6 +57,7 @@ const StixStepsPage = () => {
 
   const playAlarm = () => {
     setIsAlarmStart(true);
+    audioRef.current.autoplay = true;
     audioRef.current.play()
     setTimeout(() => {
       audioRef.current.pause()
