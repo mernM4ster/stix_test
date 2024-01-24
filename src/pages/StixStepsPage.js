@@ -21,6 +21,10 @@ const StixStepsPage = () => {
   const [onAudio, setOnAudio] = useState(true);
   const [isAlarmStart, setIsAlarmStart] = useState(false);
 
+  const playAudio = () => {
+    audioRef.current.play();
+  };
+
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
       navigate(`/uti?step=${currentStep + 1}`);
@@ -163,7 +167,8 @@ const StixStepsPage = () => {
                 </TransparentBtn>
             }
         </div>
-        <audio ref={audioRef} src={AlertMP3} />
+        <audio ref={audioRef} src="path/to/audio.mp3" />
+      <button onClick={playAudio}>Play</button>
       </div>
 		</>
 	)
