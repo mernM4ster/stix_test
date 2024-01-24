@@ -13,14 +13,10 @@ import MyRoutes from './routes';
 function App() {
   const [disabledBack, setDisabledBack] = useState(false);
   const [clickBack, setClickBack] = useState(0);
+  const noSleep = new NoSleep();
 
   useEffect(() => {
-    const noSleep = new NoSleep();
-    const awake = async () => {
-      await noSleep.enable();
-    }
-    awake()
-    alert(noSleep.isEnabled)
+    noSleep.enable();
     
     // Clean up the wake lock when the component unmounts
     return () => {
@@ -29,7 +25,7 @@ function App() {
   }, []);
 
   return (
-    <div className="stretch-height flex justify-center">
+    <div className="stretch-height flex justify-center">{noSleep.isEnabled.toString()}
       <div className='flex flex-col w-[800px]'>
         <div className='w-full flex justify-between items-center px-4 py-2'>
           <img src={LogoImg} alt='logo' />

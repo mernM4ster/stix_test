@@ -34,6 +34,7 @@ const StixStepsPage = () => {
       audioRef.current = source;
     } catch (error) {
       console.log(error);
+      alert(error)
     }
   };
 
