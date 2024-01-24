@@ -60,9 +60,9 @@ const StixStepsPage = ({activeWakeLock}) => {
 
   const playAlarm = () => {
     setIsAlarmStart(true);
-    // audioRef.current.autoplay = true;
-    // audioRef.current.play()
     console.log("alarm start")
+    audio.autoplay = true;
+    audio.loop = true;
     audio.play();
     setTimeout(() => {
       audio.pause();
@@ -170,7 +170,6 @@ const StixStepsPage = ({activeWakeLock}) => {
                 </TransparentBtn>
             }
         </div>
-        <audio ref={audioRef} src={AlertMP3} loop />
         <button onClick={playAlarm}>alert</button>
       </div>
 		</>
