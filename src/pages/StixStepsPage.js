@@ -21,11 +21,16 @@ const StixStepsPage = ({activeWakeLock}) => {
   const [onAudio, setOnAudio] = useState(true);
   const [isAlarmStart, setIsAlarmStart] = useState(false);
   const audio = new Audio();
+  audio.src= AlertMP3;
+  audio.load();
+  audio.loop = true;
 
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
       navigate(`/uti?step=${currentStep + 1}`);
       if (currentStep === 3 && timerId === null && timer > 0) {
+        audio.volume = 0;
+        audio.play();
         const current = Math.floor(Date.now() / 1000);
         localStorage.setItem("target", current + 5);
         const newTimerId = setInterval(onTimer, 1000);
@@ -34,7 +39,10 @@ const StixStepsPage = ({activeWakeLock}) => {
       }
     } else {
       localStorage.setItem("timerId", null);
-      isAlarmStart && audio.pause();
+      if (isAlarmStart) {
+        audio.volume = 0
+      };
+      audio.pause();
       navigate(`/camera`);
 		}
   }
@@ -53,18 +61,17 @@ const StixStepsPage = ({activeWakeLock}) => {
 
   const switchAudio = (flag) => {
     setOnAudio(flag);
-    isAlarmStart && audio.pause();
+    if (isAlarmStart) {
+      audio.volume = 0
+    };;
   }
 
   const playAlarm = () => {
     setIsAlarmStart(true);
     console.log("alarm start")
-    audio.src= AlertMP3;
-    audio.load();
-    audio.loop = true;
-    audio.play();
+    audio.volume = 1;
     setTimeout(() => {
-      audio.pause();
+      audio.volume = 0;
       setIsAlarmStart(false);
       console.log("alarm end")
     }, 5000);
@@ -96,6 +103,8 @@ const StixStepsPage = ({activeWakeLock}) => {
       setCurrentStep(parseInt(searchParams.get("step")));
     }
   }, [searchParams])
+
+  console.log(audio.currentTime)
 
   useEffect(() => {
     if (localStorage.getItem("timerId") !== "null" && localStorage.getItem("timerId") !== null) {
