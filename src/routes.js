@@ -22,7 +22,7 @@ const MyRoutes = ({setDisabledBack, clickBack, activeWakeLock}) => {
 	
 	return (
 		<Routes>
-			<Route path="/uti" element={<StixStepsPage activeWakeLock={activeWakeLock} />} />
+			<Route path="/uti" element={<StixStepsPage />} />
 			<Route path="/ph" element={<PHStepsPage />} />
 			<Route path='/camera' element={<CameraPage />} />
 			<Route path='/result' element={<ResultPage />} />

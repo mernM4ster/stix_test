@@ -27,9 +27,6 @@ const StixStepsPage = ({activeWakeLock}) => {
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
       navigate(`/uti?step=${currentStep + 1}`);
-      if (currentStep === 0) {
-        activeWakeLock()
-      }
       if (currentStep === 3 && timerId === null && timer > 0) {
         const current = Math.floor(Date.now() / 1000);
         localStorage.setItem("target", current + 5);

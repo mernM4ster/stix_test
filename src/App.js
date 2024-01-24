@@ -15,9 +15,17 @@ function App() {
   const [clickBack, setClickBack] = useState(0);
   const noSleep = new NoSleep();
 
-  const activeWakeLock = () => {
-    noSleep.enable();
-  }
+  useEffect(() => {
+    document.addEventListener('click', function enableNoSleep() {
+      document.removeEventListener('click', enableNoSleep, false);
+      noSleep.enable();
+    }, false);
+    
+    // Clean up the wake lock when the component unmounts
+    return () => {
+      noSleep.disable();
+    };
+  }, []);
 
   return (
     <div className="stretch-height flex justify-center">
@@ -27,7 +35,7 @@ function App() {
           <div className='w-10 h-10 rounded-full bg-[#6e66bc] flex items-center justify-center'><FontAwesomeIcon color='white' icon={faBars} /></div>
         </div>
         <BrowserRouter>
-          <MyRoutes setDisabledBack={setDisabledBack} clickBack={clickBack} activeWakeLock={activeWakeLock} />
+          <MyRoutes setDisabledBack={setDisabledBack} clickBack={clickBack} />
         </BrowserRouter>
       </div>
       {/* <button className='fixed top-20 right-6 w-8 h-8 rounded-full bg-[#6e66bc] flex items-center justify-center' disabled={disabledBack} onClick={() => setClickBack(old => old + 1)}>
