@@ -56,7 +56,7 @@ const StixStepsPage = () => {
       }
     } else {
       localStorage.setItem("timerId", null);
-      isAlarmStart && pauseAudio();
+      // isAlarmStart && pauseAudio();
       navigate(`/camera`);
 		}
   }
@@ -82,7 +82,7 @@ const StixStepsPage = () => {
     setIsAlarmStart(true);
     playAudio()
     setTimeout(() => {
-      pauseAudio()
+      // pauseAudio()
       setIsAlarmStart(false);
     }, 5000);
   };
