@@ -21,30 +21,6 @@ const StixStepsPage = () => {
   const [onAudio, setOnAudio] = useState(true);
   const [isAlarmStart, setIsAlarmStart] = useState(false);
 
-  const playAudio = async () => {
-    try {
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const response = await fetch(AlertMP3);
-      const arrayBuffer = await response.arrayBuffer();
-      const decodedData = await audioCtx.decodeAudioData(arrayBuffer);
-      const source = audioCtx.createBufferSource();
-      source.buffer = decodedData;
-      source.connect(audioCtx.destination);
-      source.start();
-      audioRef.current = source;
-      audioRef.current.loop = true
-    } catch (error) {
-      console.log(error);
-      alert(error)
-    }
-  };
-
-  const pauseAudio = () => {
-    if (audioRef.current) {
-      audioRef.current.stop();
-    }
-  };
-
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
       navigate(`/uti?step=${currentStep + 1}`);
@@ -57,7 +33,7 @@ const StixStepsPage = () => {
       }
     } else {
       localStorage.setItem("timerId", null);
-      // isAlarmStart && pauseAudio();
+      // isAlarmStart && audioRef.current.pause();
       navigate(`/camera`);
 		}
   }
@@ -76,14 +52,14 @@ const StixStepsPage = () => {
 
   const switchAudio = (flag) => {
     setOnAudio(flag);
-    isAlarmStart && pauseAudio();
+    // isAlarmStart && audioRef.current.pause();
   }
 
   const playAlarm = () => {
     setIsAlarmStart(true);
-    playAudio()
+    audioRef.current.play()
     setTimeout(() => {
-      // pauseAudio()
+      // audioRef.current.pause()
       setIsAlarmStart(false);
     }, 5000);
   };
@@ -130,7 +106,6 @@ const StixStepsPage = () => {
 	return (
 		<>
       <div className='relative w-full xxs:h-48 xs:h-60 px-4 py-10 bg-[#e8e4f2] relative flex flex-col items-center justify-center text-4xl font-bold'>
-        {audioRef.current && (!audioRef.current.paused).toString()}
 				{
 					!!timerId && 
             <div className={`absolute top-4 py-2 px-4 rounded-full ${timer ? "bg-black" : "bg-red-600"} text-white beatrice-font font-bold xxxs:text-sm xxs:text-lg xs:text-2xl flex justify-center leading-none`}>
@@ -188,6 +163,7 @@ const StixStepsPage = () => {
                 </TransparentBtn>
             }
         </div>
+        <audio ref={audioRef} src={AlertMP3} />
       </div>
 		</>
 	)
