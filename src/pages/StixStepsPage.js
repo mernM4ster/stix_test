@@ -112,6 +112,7 @@ const StixStepsPage = ({activeWakeLock}) => {
 
 	return (
 		<>
+    <button onClick={playAlarm}>alert</button>
       <div className='relative w-full xxs:h-48 xs:h-60 px-4 py-10 bg-[#e8e4f2] relative flex flex-col items-center justify-center text-4xl font-bold'>
 				{
 					!!timerId && 
@@ -170,7 +171,6 @@ const StixStepsPage = ({activeWakeLock}) => {
                 </TransparentBtn>
             }
         </div>
-        <button onClick={playAlarm}>alert</button>
       </div>
 		</>
 	)
