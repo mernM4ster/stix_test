@@ -25,7 +25,7 @@ function App() {
   }, []);
 
   return (
-    <div className="stretch-height flex justify-center">{noSleep.isEnabled.toString()}
+    <div className="stretch-height flex justify-center">
       <div className='flex flex-col w-[800px]'>
         <div className='w-full flex justify-between items-center px-4 py-2'>
           <img src={LogoImg} alt='logo' />

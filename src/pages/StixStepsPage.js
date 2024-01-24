@@ -21,21 +21,6 @@ const StixStepsPage = () => {
   const [onAudio, setOnAudio] = useState(true);
   const [isAlarmStart, setIsAlarmStart] = useState(false);
 
-  const initAudio = async () => {
-    try {
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const response = await fetch(AlertMP3);
-      const arrayBuffer = await response.arrayBuffer();
-      const decodedData = await audioCtx.decodeAudioData(arrayBuffer);
-      const source = audioCtx.createBufferSource();
-      source.buffer = decodedData;
-      source.connect(audioCtx.destination);
-      audioRef.current = source;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
       navigate(`/uti?step=${currentStep + 1}`);
@@ -48,7 +33,7 @@ const StixStepsPage = () => {
       }
     } else {
       localStorage.setItem("timerId", null);
-      // isAlarmStart && audioRef.current.pause();
+      isAlarmStart && audioRef.current.pause();
       navigate(`/camera`);
 		}
   }
@@ -67,14 +52,14 @@ const StixStepsPage = () => {
 
   const switchAudio = (flag) => {
     setOnAudio(flag);
-    // isAlarmStart && audioRef.current.pause();
+    isAlarmStart && audioRef.current.pause();
   }
 
   const playAlarm = () => {
     setIsAlarmStart(true);
-    audioRef.current.play();
+    audioRef.current.play()
     setTimeout(() => {
-      // audioRef.current.pause()
+      audioRef.current.pause()
       setIsAlarmStart(false);
     }, 5000);
   };
@@ -115,8 +100,6 @@ const StixStepsPage = () => {
       localStorage.setItem("timerId", newTimerId)
       setTimerId(newTimerId);
     }
-
-    initAudio();
   }, [])
 
 
@@ -180,6 +163,8 @@ const StixStepsPage = () => {
                 </TransparentBtn>
             }
         </div>
+        <audio ref={audioRef} src={AlertMP3} loop />
+        <button onClick={playAlarm}>alert</button>
       </div>
 		</>
 	)
