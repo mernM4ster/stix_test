@@ -21,9 +21,19 @@ const StixStepsPage = () => {
   const [onAudio, setOnAudio] = useState(true);
   const [isAlarmStart, setIsAlarmStart] = useState(false);
 
-  const playAudio = () => {
-    const audioElement = document.getElementById('audioElement');
-    audioElement.play();
+  const initAudio = async () => {
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const response = await fetch(AlertMP3);
+      const arrayBuffer = await response.arrayBuffer();
+      const decodedData = await audioCtx.decodeAudioData(arrayBuffer);
+      const source = audioCtx.createBufferSource();
+      source.buffer = decodedData;
+      source.connect(audioCtx.destination);
+      audioRef.current = source;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onNextBtn = () => {
@@ -62,8 +72,7 @@ const StixStepsPage = () => {
 
   const playAlarm = () => {
     setIsAlarmStart(true);
-    // audioRef.current.play();
-    playAudio()
+    audioRef.current.play();
     setTimeout(() => {
       // audioRef.current.pause()
       setIsAlarmStart(false);
@@ -107,10 +116,7 @@ const StixStepsPage = () => {
       setTimerId(newTimerId);
     }
 
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const audioElement = document.getElementById('audioElement');
-    const source = audioCtx.createMediaElementSource(audioElement);
-    source.connect(audioCtx.destination);
+    initAudio();
   }, [])
 
 
@@ -174,8 +180,6 @@ const StixStepsPage = () => {
                 </TransparentBtn>
             }
         </div>
-        <audio id="audioElement" ref={audioRef} src={AlertMP3} loop />
-        <button onClick={playAudio}>Play</button>
       </div>
 		</>
 	)
