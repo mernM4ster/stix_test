@@ -20,6 +20,7 @@ function App() {
       document.removeEventListener('click', enableNoSleep, false);
       noSleep.enable();
     }, false);
+    document.onclick();
   }, []);
 
   return (
