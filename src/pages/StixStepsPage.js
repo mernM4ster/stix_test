@@ -167,7 +167,7 @@ const StixStepsPage = () => {
                 </TransparentBtn>
             }
         </div>
-        <audio ref={audioRef} src="path/to/audio.mp3" />
+        <audio ref={audioRef} src={AlertMP3} />
       <button onClick={playAudio}>Play</button>
       </div>
 		</>
