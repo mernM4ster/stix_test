@@ -14,9 +14,10 @@ function App() {
   const [disabledBack, setDisabledBack] = useState(false);
   const [clickBack, setClickBack] = useState(0);
 
+  const noSleep = new NoSleep();
+  noSleep.enable();
+  console.log("wake lock")
   useEffect(() => {
-    const noSleep = new NoSleep();
-    noSleep.enable();
     
     // Clean up the wake lock when the component unmounts
     // return () => {
