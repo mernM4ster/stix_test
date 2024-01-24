@@ -21,8 +21,6 @@ const StixStepsPage = ({activeWakeLock}) => {
   const [onAudio, setOnAudio] = useState(true);
   const [isAlarmStart, setIsAlarmStart] = useState(false);
   const audio = new Audio();
-  audio.src= AlertMP3;
-  audio.load();
 
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
@@ -33,6 +31,10 @@ const StixStepsPage = ({activeWakeLock}) => {
         const newTimerId = setInterval(onTimer, 1000);
         localStorage.setItem("timerId", newTimerId);
         setTimerId(newTimerId);
+        audio.src= AlertMP3;
+        audio.load();
+        audio.autoplay = true;
+        audio.loop = true;
       }
     } else {
       localStorage.setItem("timerId", null);
@@ -61,8 +63,6 @@ const StixStepsPage = ({activeWakeLock}) => {
   const playAlarm = () => {
     setIsAlarmStart(true);
     console.log("alarm start")
-    audio.autoplay = true;
-    audio.loop = true;
     audio.play();
     setTimeout(() => {
       audio.pause();
