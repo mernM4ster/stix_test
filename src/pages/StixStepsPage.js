@@ -9,7 +9,7 @@ import { UTI_STEPS } from '../const/const';
 import StixTestImg from "../assets/img/stix-uti-test.png";
 import AlertMP3 from  "../assets/audio/alert.mp3";
 
-const StixStepsPage = () => {
+const StixStepsPage = ({activeWakeLock}) => {
   const navigate = useNavigate();
   const audioRef = useRef(null);
   const [searchParams] = useSearchParams();
@@ -27,6 +27,9 @@ const StixStepsPage = () => {
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
       navigate(`/uti?step=${currentStep + 1}`);
+      if (currentStep === 0) {
+        activeWakeLock()
+      }
       if (currentStep === 3 && timerId === null && timer > 0) {
         const current = Math.floor(Date.now() / 1000);
         localStorage.setItem("target", current + 5);

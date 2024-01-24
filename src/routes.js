@@ -5,7 +5,7 @@ import ResultPage from './pages/ResultPage';
 import CameraPage from './pages/CameraPage';
 import PHStepsPage from './pages/PHStepsPage';
 
-const MyRoutes = ({setDisabledBack, clickBack}) => {
+const MyRoutes = ({setDisabledBack, clickBack, activeWakeLock}) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
@@ -22,7 +22,7 @@ const MyRoutes = ({setDisabledBack, clickBack}) => {
 	
 	return (
 		<Routes>
-			<Route path="/uti" element={<StixStepsPage />} />
+			<Route path="/uti" element={<StixStepsPage activeWakeLock={activeWakeLock} />} />
 			<Route path="/ph" element={<PHStepsPage />} />
 			<Route path='/camera' element={<CameraPage />} />
 			<Route path='/result' element={<ResultPage />} />
