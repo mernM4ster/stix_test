@@ -20,11 +20,6 @@ function App() {
       document.removeEventListener('click', enableNoSleep, false);
       noSleep.enable();
     }, false);
-    
-    // Clean up the wake lock when the component unmounts
-    return () => {
-      noSleep.disable();
-    };
   }, []);
 
   return (
