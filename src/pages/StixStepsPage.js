@@ -22,7 +22,8 @@ const StixStepsPage = () => {
   const [isAlarmStart, setIsAlarmStart] = useState(false);
 
   const playAudio = () => {
-    audioRef.current.play();
+    const audioElement = document.getElementById('audioElement');
+    audioElement.play();
   };
 
   const onNextBtn = () => {
@@ -61,7 +62,8 @@ const StixStepsPage = () => {
 
   const playAlarm = () => {
     setIsAlarmStart(true);
-    audioRef.current.play();
+    // audioRef.current.play();
+    playAudio()
     setTimeout(() => {
       // audioRef.current.pause()
       setIsAlarmStart(false);
@@ -104,6 +106,11 @@ const StixStepsPage = () => {
       localStorage.setItem("timerId", newTimerId)
       setTimerId(newTimerId);
     }
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const audioElement = document.getElementById('audioElement');
+    const source = audioCtx.createMediaElementSource(audioElement);
+    source.connect(audioCtx.destination);
   }, [])
 
 
@@ -167,7 +174,7 @@ const StixStepsPage = () => {
                 </TransparentBtn>
             }
         </div>
-        <audio ref={audioRef} src={AlertMP3} loop />
+        <audio id="audioElement" ref={audioRef} src={AlertMP3} loop />
         <button onClick={playAudio}>Play</button>
       </div>
 		</>
