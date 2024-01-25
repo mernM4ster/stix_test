@@ -12,7 +12,7 @@ const StixStepsPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 	const [currentStep, setCurrentStep] = useState(0);
-	const [timer, setTimer] = useState(115);
+	const [timer, setTimer] = useState(5);
 	const [timerId, setTimerId] = useState(null);
   const [min, setMin] = useState("0");
   const [sec, setSec] = useState("00");
@@ -25,7 +25,7 @@ const StixStepsPage = () => {
       navigate(`/uti?step=${currentStep + 1}`);
       if (currentStep === 3 && timerId === null && timer > 0) {
         const current = Math.floor(Date.now() / 1000);
-        localStorage.setItem("target", current + 115);
+        localStorage.setItem("target", current + 5);
         const newTimerId = setInterval(onTimer, 1000);
         localStorage.setItem("timerId", newTimerId);
         setTimerId(newTimerId);
@@ -80,7 +80,7 @@ const StixStepsPage = () => {
         setSec(newSec < 10 ? `0${newSec}` : newSec.toString())
       }
     } else {
-      setTimer(115);
+      setTimer(5);
     }
   }, [timer, timerId])
 
