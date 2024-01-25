@@ -97,7 +97,7 @@ const StixStepsPage = () => {
   }, [searchParams])
 
   useEffect(() => {
-    if (localStorage.getItem("timerId") !== "null") {
+    if (localStorage.getItem("timerId") !== "null" && localStorage.getItem("timerId") !== null ) {
       clearInterval(parseInt(localStorage.getItem("timerId")));
       setTimer(localStorage.getItem("timer") * 1);
       const newTimerId = setInterval(onTimer, 1000);
