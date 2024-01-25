@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
@@ -7,42 +7,33 @@ import TransparentBtn from '../Components/TransParentBtn';
 import { UTI_STEPS } from '../const/const';
 
 import StixTestImg from "../assets/img/stix-uti-test.png";
-import AlertMP3 from  "../assets/audio/alert.mp3";
 
-const StixStepsPage = ({activeWakeLock}) => {
+const StixStepsPage = () => {
   const navigate = useNavigate();
-  const audioRef = useRef(null);
   const [searchParams] = useSearchParams();
 	const [currentStep, setCurrentStep] = useState(0);
-	const [timer, setTimer] = useState(5);
+	const [timer, setTimer] = useState(115);
 	const [timerId, setTimerId] = useState(null);
   const [min, setMin] = useState("0");
   const [sec, setSec] = useState("00");
   const [onAudio, setOnAudio] = useState(true);
   const [isAlarmStart, setIsAlarmStart] = useState(false);
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  const audio = new Audio(AlertMP3);
-  audio.load();
-  audio.loop = true;
-  const source = audioContext.createMediaElementSource(audio);
-  source.connect(audioContext.destination);
+  const [oscillator, setOscillator] = useState(null);
 
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
       navigate(`/uti?step=${currentStep + 1}`);
       if (currentStep === 3 && timerId === null && timer > 0) {
         const current = Math.floor(Date.now() / 1000);
-        localStorage.setItem("target", current + 5);
+        localStorage.setItem("target", current + 115);
         const newTimerId = setInterval(onTimer, 1000);
         localStorage.setItem("timerId", newTimerId);
         setTimerId(newTimerId);
       }
     } else {
       localStorage.setItem("timerId", null);
-      if (isAlarmStart) {
-        audio.pause();
-      };
-      audio.pause();
+      console.log(isAlarmStart)
+      isAlarmStart && oscillator.stop();
       navigate(`/camera`);
 		}
   }
@@ -60,27 +51,21 @@ const StixStepsPage = ({activeWakeLock}) => {
   }
 
   const switchAudio = (flag) => {
-    setOnAudio(flag);
-    if (isAlarmStart) {
-      audio.pause();
-    };;
+    setOnAudio(flag)
   }
 
   const playAlarm = () => {
     setIsAlarmStart(true);
-    console.log("alarm start")
-    // audioRef.current.click();
-    audio.play();
+    oscillator.start();
     setTimeout(() => {
-      audio.pause();
+      oscillator.stop();
       setIsAlarmStart(false);
-      console.log("alarm end");
     }, 5000);
   };
 
   useEffect(() => {
     if (timerId) {
-      if (timer <= 0) {
+      if (timer === 0) {
         clearInterval(timerId);
         onAudio && playAlarm();
         // setTimerId(null)
@@ -95,7 +80,7 @@ const StixStepsPage = ({activeWakeLock}) => {
         setSec(newSec < 10 ? `0${newSec}` : newSec.toString())
       }
     } else {
-      setTimer(5);
+      setTimer(115);
     }
   }, [timer, timerId])
 
@@ -106,20 +91,30 @@ const StixStepsPage = ({activeWakeLock}) => {
   }, [searchParams])
 
   useEffect(() => {
-    if (localStorage.getItem("timerId") !== "null" && localStorage.getItem("timerId") !== null) {
-      console.log(localStorage.getItem("timerId"))
+    if (localStorage.getItem("timerId") !== "null") {
       clearInterval(parseInt(localStorage.getItem("timerId")));
       setTimer(localStorage.getItem("timer") * 1);
       const newTimerId = setInterval(onTimer, 1000);
       localStorage.setItem("timerId", newTimerId)
       setTimerId(newTimerId);
     }
-  }, [])
 
+    // Create an AudioContext
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioContext = new AudioContext();
+
+    // Create an oscillator node
+    const newOscillator = audioContext.createOscillator();
+    newOscillator.type = 'square';
+    newOscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+
+    // Connect the oscillator to the AudioContext destination
+    newOscillator.connect(audioContext.destination);
+    setOscillator(newOscillator);
+  }, [])
 
 	return (
 		<>
-    <button onClick={playAlarm}>alert</button>
       <div className='relative w-full xxs:h-48 xs:h-60 px-4 py-10 bg-[#e8e4f2] relative flex flex-col items-center justify-center text-4xl font-bold'>
 				{
 					!!timerId && 
@@ -178,7 +173,6 @@ const StixStepsPage = ({activeWakeLock}) => {
                 </TransparentBtn>
             }
         </div>
-        <div ref={audioRef} />
       </div>
 		</>
 	)
