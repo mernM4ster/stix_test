@@ -67,7 +67,7 @@ const StixStepsPage = ({activeWakeLock}) => {
   const playAlarm = () => {
     setIsAlarmStart(true);
     console.log("alarm start")
-    audioRef.current.click();
+    // audioRef.current.click();
     audio.play();
     setTimeout(() => {
       audio.pause();
