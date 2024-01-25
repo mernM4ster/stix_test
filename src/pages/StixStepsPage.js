@@ -109,6 +109,7 @@ const StixStepsPage = () => {
 	return (
 		<>
       <div className='relative w-full xxs:h-48 xs:h-60 px-4 py-10 bg-[#e8e4f2] relative flex flex-col items-center justify-center text-4xl font-bold'>
+        <button onClick={playAlarm}>play</button>
 				{
 					!!timerId && 
             <div className={`absolute top-4 py-2 px-4 rounded-full ${timer ? "bg-black" : "bg-red-600"} text-white beatrice-font font-bold xxxs:text-sm xxs:text-lg xs:text-2xl flex justify-center leading-none`}>
