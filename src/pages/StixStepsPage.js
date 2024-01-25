@@ -29,8 +29,6 @@ const StixStepsPage = ({activeWakeLock}) => {
     if (currentStep < UTI_STEPS.length) {
       navigate(`/uti?step=${currentStep + 1}`);
       if (currentStep === 3 && timerId === null && timer > 0) {
-        audio.volume = 0;
-        audio.play();
         const current = Math.floor(Date.now() / 1000);
         localStorage.setItem("target", current + 5);
         const newTimerId = setInterval(onTimer, 1000);
@@ -40,7 +38,7 @@ const StixStepsPage = ({activeWakeLock}) => {
     } else {
       localStorage.setItem("timerId", null);
       if (isAlarmStart) {
-        audio.volume = 0
+        audio.pause();
       };
       audio.pause();
       navigate(`/camera`);
@@ -62,16 +60,17 @@ const StixStepsPage = ({activeWakeLock}) => {
   const switchAudio = (flag) => {
     setOnAudio(flag);
     if (isAlarmStart) {
-      audio.volume = 0
+      audio.pause();
     };;
   }
 
   const playAlarm = () => {
     setIsAlarmStart(true);
     console.log("alarm start")
-    audio.volume = 1;
+    audioRef.current.click();
+    audio.play();
     setTimeout(() => {
-      audio.volume = 0;
+      audio.pause();
       setIsAlarmStart(false);
       console.log("alarm end")
     }, 5000);
@@ -179,6 +178,7 @@ const StixStepsPage = ({activeWakeLock}) => {
                 </TransparentBtn>
             }
         </div>
+        <div ref={audioRef} />
       </div>
 		</>
 	)
