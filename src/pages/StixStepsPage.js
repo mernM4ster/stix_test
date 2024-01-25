@@ -19,15 +19,15 @@ const StixStepsPage = () => {
   const [sec, setSec] = useState("00");
   const [onAudio, setOnAudio] = useState(true);
   const [isAlarmStart, setIsAlarmStart] = useState(false);
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
   const audioElement = new Audio(AlertMP3);
-  const source = audioContext.createMediaElementSource(audioElement);
-  source.connect(audioContext.destination);
 
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
       navigate(`/uti?step=${currentStep + 1}`);
       if (currentStep === 3 && timerId === null && timer > 0) {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const source = audioContext.createMediaElementSource(audioElement);
+        source.connect(audioContext.destination);
         const current = Math.floor(Date.now() / 1000);
         localStorage.setItem("target", current + 5);
         const newTimerId = setInterval(onTimer, 1000);
