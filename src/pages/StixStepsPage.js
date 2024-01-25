@@ -7,6 +7,7 @@ import TransparentBtn from '../Components/TransParentBtn';
 import { UTI_STEPS } from '../const/const';
 
 import StixTestImg from "../assets/img/stix-uti-test.png";
+import AlertMP3 from "../assets/audio/alert.mp3";
 
 const StixStepsPage = () => {
   const navigate = useNavigate();
@@ -18,7 +19,10 @@ const StixStepsPage = () => {
   const [sec, setSec] = useState("00");
   const [onAudio, setOnAudio] = useState(true);
   const [isAlarmStart, setIsAlarmStart] = useState(false);
-  const [oscillator, setOscillator] = useState(null);
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const audioElement = new Audio(AlertMP3);
+  const source = audioContext.createMediaElementSource(audioElement);
+  source.connect(audioContext.destination);
 
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
@@ -33,7 +37,7 @@ const StixStepsPage = () => {
     } else {
       localStorage.setItem("timerId", null);
       console.log(isAlarmStart)
-      isAlarmStart && oscillator.stop();
+      isAlarmStart && audioElement.pause();
       navigate(`/camera`);
 		}
   }
@@ -56,9 +60,9 @@ const StixStepsPage = () => {
 
   const playAlarm = () => {
     setIsAlarmStart(true);
-    oscillator.start();
+    audioElement.play();
     setTimeout(() => {
-      oscillator.stop();
+      audioElement.pause();
       setIsAlarmStart(false);
     }, 5000);
   };
@@ -67,7 +71,9 @@ const StixStepsPage = () => {
     if (timerId) {
       if (timer === 0) {
         clearInterval(timerId);
-        onAudio && playAlarm();
+        if (onAudio) {
+          setTimeout(playAlarm, 100);
+        } 
         // setTimerId(null)
         setSec("00");
         localStorage.setItem("timerId", null);
@@ -98,19 +104,6 @@ const StixStepsPage = () => {
       localStorage.setItem("timerId", newTimerId)
       setTimerId(newTimerId);
     }
-
-    // Create an AudioContext
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    const audioContext = new AudioContext();
-
-    // Create an oscillator node
-    const newOscillator = audioContext.createOscillator();
-    newOscillator.type = 'square';
-    newOscillator.frequency.setValueAtTime(440, audioContext.currentTime);
-
-    // Connect the oscillator to the AudioContext destination
-    newOscillator.connect(audioContext.destination);
-    setOscillator(newOscillator);
   }, [])
 
 	return (
