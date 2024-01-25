@@ -20,8 +20,7 @@ const StixStepsPage = ({activeWakeLock}) => {
   const [sec, setSec] = useState("00");
   const [onAudio, setOnAudio] = useState(true);
   const [isAlarmStart, setIsAlarmStart] = useState(false);
-  const audio = new Audio();
-  audio.src= AlertMP3;
+  const audio = new Audio(AlertMP3);
   audio.load();
   audio.loop = true;
 
@@ -72,7 +71,7 @@ const StixStepsPage = ({activeWakeLock}) => {
     setTimeout(() => {
       audio.pause();
       setIsAlarmStart(false);
-      console.log("alarm end")
+      console.log("alarm end");
     }, 5000);
   };
 
@@ -103,8 +102,6 @@ const StixStepsPage = ({activeWakeLock}) => {
     }
   }, [searchParams])
 
-  console.log(audio.currentTime)
-
   useEffect(() => {
     if (localStorage.getItem("timerId") !== "null" && localStorage.getItem("timerId") !== null) {
       console.log(localStorage.getItem("timerId"))
@@ -114,6 +111,9 @@ const StixStepsPage = ({activeWakeLock}) => {
       localStorage.setItem("timerId", newTimerId)
       setTimerId(newTimerId);
     }
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const source = audioContext.createMediaElementSource(audio);
+    source.connect(audioContext.destination);
   }, [])
 
 
