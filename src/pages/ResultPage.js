@@ -9,7 +9,7 @@ import TransparentBtn from "../Components/TransParentBtn";
 
 const ResultPage = () => {
 	const goToPrescription = () => {
-		window.open("https://staging.drbubba.net/care/primary-care/uti?partner=scanbase", "_blank", "noreferrer")
+		window.open("https://staging.drbubba.net/start?service=uti&partner=scanbase", "_blank", "noreferrer")
 	}
 	
 	const goToShop = () => {
@@ -24,21 +24,21 @@ const ResultPage = () => {
 			<div className='bg-[#fff4ea] flex-1 flex flex-col items-center xxxs:pb-2 xs:pb-10 px-4'>
 				<div className="w-full xxs:h-24 xs:h-40 bg-white rounded-b-xl xxxs:p-1 xxs:p-2 xs:p-8 text-center">
 					<div className="beatrice-font xxxs:text-sm xxs:text-lg xs:text-2xl">Looks like a UTI</div>
-					<div className="domaine-regular xxxs:text-sm xxs:text-lg xs:text-xl">Your results suggest signs of a Urinary tract infection.</div>
+					<div className="domaine-regular xxxs:text-sm xxs:text-lg xxs:leading-tight xs:text-xl">Your results suggest signs of a Urinary tract infection.</div>
 				</div>
 				<p className="beatrice-font font-bold xxxs:text-sm xxs:text-lg xs:text-2xl xxxs:py-1 xxs:py-4">Doctors recommend:</p>
 				<div className="flex-1 grid grid-cols-3 gap-4 beatrice-font xxxs:text-xs xxs:text-base font-bold text-center xxxs:mb-2 xxs:mb-4 xs:mb-8">
 					<a className="flex flex-col" href="https://getstix.co/products/uti-daily-protection-supplement" target="_blank" rel="noreferrer">
 						<div className="bg-white xxxs:mb-2 xxs:mb-4 rounded-lg"><img src={ProtectionImg} alt="protection_img" /></div>
-						<div className="">UTI Daily Protection</div>
+						<div className="xxs:leading-tight">UTI Daily Protection</div>
 					</a>
 					<a className="flex flex-col" href="https://getstix.co/products/uti-fast-acting-pain-relief" target="_blank" rel="noreferrer">
 						<div className="bg-white xxxs:mb-2 xxs:mb-4 rounded-lg"><img src={ReliefImg} alt="relief_img" /></div>
-						<div className="">UTI Pain Relief</div>
+						<div className="xxs:leading-tight">UTI Pain Relief</div>
 					</a>
 					<a className="flex flex-col" href="https://getstix.co/products/vaginal-health-probiotic" target="_blank" rel="noreferrer">
 						<div className="bg-white xxxs:mb-2 xxs:mb-4 rounded-lg"><img src={ProbioticImg} alt="probiotic_img" /></div>
-						<div className="">Health Probiotic</div>
+						<div className="xxs:leading-tight">Health Probiotic</div>
 					</a>
 				</div>
 				<PurpleBtn func={goToPrescription}>Get a Prescription</PurpleBtn>

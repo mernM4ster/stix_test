@@ -52,7 +52,8 @@ const StixStepsPage = () => {
   }
 
   const switchAudio = (flag) => {
-    setOnAudio(flag)
+    setOnAudio(flag);
+    audioElement.pause();
   }
 
   const playAlarm = () => {
@@ -69,7 +70,7 @@ const StixStepsPage = () => {
 
   useEffect(() => {
     if (timerId) {
-      if (timer === 0) {
+      if (timer <= 0) {
         clearInterval(timerId);
         if (onAudio) {
           setTimeout(playAlarm, 100);
@@ -97,7 +98,7 @@ const StixStepsPage = () => {
   }, [searchParams])
 
   useEffect(() => {
-    if (localStorage.getItem("timerId") !== "null" && localStorage.getItem("timerId") !== null ) {
+    if (localStorage.getItem("timerId") !== "null" && localStorage.getItem("timerId") !== null) {
       clearInterval(parseInt(localStorage.getItem("timerId")));
       setTimer(localStorage.getItem("timer") * 1);
       const newTimerId = setInterval(onTimer, 1000);
@@ -106,10 +107,11 @@ const StixStepsPage = () => {
     }
   }, [])
 
+
 	return (
 		<>
+    <button onClick={playAlarm}>alert</button>
       <div className='relative w-full xxs:h-48 xs:h-60 px-4 py-10 bg-[#e8e4f2] relative flex flex-col items-center justify-center text-4xl font-bold'>
-        <button onClick={playAlarm}>play</button>
 				{
 					!!timerId && 
             <div className={`absolute top-4 py-2 px-4 rounded-full ${timer ? "bg-black" : "bg-red-600"} text-white beatrice-font font-bold xxxs:text-sm xxs:text-lg xs:text-2xl flex justify-center leading-none`}>
@@ -146,8 +148,8 @@ const StixStepsPage = () => {
                 }
               </div>
               <span className='domaine-regular xxxs:text-sm xxs:text-lg xs:text-2xl xxxs:mb-2 xxs:mb-4 xs:mb-6'>Step {currentStep}</span>
-              <div className='w-full beatrice-font xxxs:text-sm xxs:text-lg xs:text-2xl font-bold text-left xxs:mb-2 xs:mb-4'>{UTI_STEPS[currentStep - 1].title}</div>
-              <div className='w-full domaine-regular xxxs:text-sm xxs:text-lg xs:text-2xl text-left'>{UTI_STEPS[currentStep - 1].description}</div>
+              <div className='w-full beatrice-font xxxs:text-sm xxs:text-lg xxs:leading-tight xs:text-2xl font-bold text-left xxs:mb-2 xs:mb-4'>{UTI_STEPS[currentStep - 1].title}</div>
+              <div className='w-full domaine-regular xxxs:text-sm xxs:text-lg xxs:leading-tight xs:text-2xl text-left'>{UTI_STEPS[currentStep - 1].description}</div>
             </div>
         }
         <div className='flex-1'></div>
