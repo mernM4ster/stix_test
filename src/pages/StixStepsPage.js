@@ -20,6 +20,7 @@ const StixStepsPage = () => {
   const [onAudio, setOnAudio] = useState(true);
   const [isAlarmStart, setIsAlarmStart] = useState(false);
   const audioElement = new Audio(AlertMP3);
+  audioElement.loop = true
 
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
