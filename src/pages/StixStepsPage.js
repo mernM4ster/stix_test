@@ -9,6 +9,9 @@ import { UTI_STEPS } from '../const/const';
 import StixTestImg from "../assets/img/stix-uti-test.png";
 import AlertMP3 from "../assets/audio/alert.mp3";
 
+const audioElement = new Audio(AlertMP3);
+audioElement.loop = true;
+audioElement.volume = 0;
 const StixStepsPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -19,13 +22,12 @@ const StixStepsPage = () => {
   const [sec, setSec] = useState("00");
   const [onAudio, setOnAudio] = useState(true);
   const [isAlarmStart, setIsAlarmStart] = useState(false);
-  const audioElement = new Audio(AlertMP3);
-  audioElement.loop = true
 
   const onNextBtn = () => {
     if (currentStep < UTI_STEPS.length) {
       navigate(`/uti?step=${currentStep + 1}`);
       if (currentStep === 3 && timerId === null && timer > 0) {
+        audioElement.play()
         const current = Math.floor(Date.now() / 1000);
         localStorage.setItem("target", current + 5);
         const newTimerId = setInterval(onTimer, 1000);
@@ -59,14 +61,14 @@ const StixStepsPage = () => {
 
   const playAlarm = () => {
     setIsAlarmStart(true);
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const source = audioContext.createMediaElementSource(audioElement);
-    source.connect(audioContext.destination);
-    audioElement.play();
+    // audioElement.play();
+    audioElement.volume = 1
     setTimeout(() => {
-      audioElement.pause();
+      // audioElement.pause();
+      audioElement.volume = 0;
+      console.log("alarm end")
       setIsAlarmStart(false);
-    }, 5000);
+    }, 6000);
   };
 
   useEffect(() => {
@@ -74,7 +76,7 @@ const StixStepsPage = () => {
       if (timer <= 0) {
         clearInterval(timerId);
         if (onAudio) {
-          setTimeout(playAlarm, 100);
+          playAlarm()
         } 
         // setTimerId(null)
         setSec("00");
