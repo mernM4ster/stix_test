@@ -11,7 +11,6 @@ import AlertMP3 from "../assets/audio/alert.mp3";
 
 const audioElement = new Audio(AlertMP3);
 audioElement.loop = true;
-audioElement.volume = 0;
 const StixStepsPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -27,7 +26,8 @@ const StixStepsPage = () => {
     if (currentStep < UTI_STEPS.length) {
       navigate(`/uti?step=${currentStep + 1}`);
       if (currentStep === 3 && timerId === null && timer > 0) {
-        audioElement.play()
+        audioElement.play();
+        audioElement.volume = 0;
         const current = Math.floor(Date.now() / 1000);
         localStorage.setItem("target", current + 5);
         const newTimerId = setInterval(onTimer, 1000);
