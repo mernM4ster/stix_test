@@ -162,7 +162,6 @@ const CameraPage = () => {
 
 	return (
     <>
-    <input type="file" capture="camera" accept="image/*">Pic</input>
     {
       !isLoading
         ? <div id='camera-section' className='fixed w-full h-full z-10 right-0'>
