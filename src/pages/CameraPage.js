@@ -69,9 +69,9 @@ const CameraPage = () => {
           .catch(function (err) {
             console.log(err.name + ': ' + err.message);
             const fileInput = document.createElement("input");
-            fileInput.capture = "camera";
             fileInput.type = "file";
             fileInput.accept = "image/*";
+            fileInput.capture = "camera";
             fileInput.click();
   
             fileInput.addEventListener("change", (event) => {
